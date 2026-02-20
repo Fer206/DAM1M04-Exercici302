@@ -1,9 +1,24 @@
-{{> header}}
-{{> menu}}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+    <link rel="stylesheet" href="index.css">
+    <title>{{common.siteName}}</title>
+    
+</head>
+<body>
+    {{> menu}}
+    <h1>Welcome to {{common.siteName}}</h1>
+    <img src="{{common.logo}}" alt="Logo">
+    <h1>Peliculas destacadas</h1>
 
-<main>
-    <h2>Página Principal</h2>
-    <p>Bienvenido al ejercicio 303.</p>
-</main>
-
-{{> footer}}
+    <div class="grid">
+        {{#each movies}}
+        <div class="card">
+            <h2>{{this.title}}</h2>
+            <p>{{this.description}}</p>
+        </div>
+        {{/each}}
+    </div>
+    {{> footer}}
+</html>
