@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+</head>
+
+<body>
+
+{{> menu}}
+
+<h1>Películas</h1>
+
+<div class="grid">
+    {{#each movies}}
+    <div class="card">
+        <h3>{{title}}</h3>
+        <p>Año: {{release_year}}</p>
+        <p><b>Actors:</b> {{actors}}</p>
+    </div>
+    {{/each}}
+</div>
+
+{{> footer}}
+
+</body>
+</html>
