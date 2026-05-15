@@ -15,39 +15,20 @@ const db = new MySQL();
 if (!isProxmox) {
   db.init({
     host: '127.0.0.1',
-    port: 3306,
+    port: 3307,
     user: 'root',
     password: 'root',
-    database: 'sakila' // canvi a Sakila
+    database: 'sakila'
   });
-  // TEST DE CONEXIÓN
-  db.query('SHOW TABLES')
-    .then(rows => {
-        console.log('Conectado a la base de datos Sakila. Tablas disponibles:');
-        console.log(rows.map(r => Object.values(r)[0])); // imprime solo los nombres de las tablas
-    })
-    .catch(err => {
-        console.error('Error conectando a la base de datos:', err);
-    });
 } else {
   db.init({
     host: '127.0.0.1',
-    port: 3306,
+    port: 3307,
     user: 'super',
     password: '1234',
-    database: 'sakila' // canvi a Sakila
+    database: 'sakila'
   });
-  // TEST DE CONEXIÓN
-  db.query('SHOW TABLES')
-    .then(rows => {
-        console.log('Conectado a la base de datos Sakila. Tablas disponibles:');
-        console.log(rows.map(r => Object.values(r)[0])); // imprime solo los nombres de las tablas
-    })
-    .catch(err => {
-        console.error('Error conectando a la base de datos:', err);
-    });
 }
-
 // Static files - ONLY ONCE
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -97,8 +78,8 @@ app.get('/', async (req, res) => {
     const categoriesRows = await db.query(`SELECT * FROM category LIMIT 5`);
 
     res.render('index', {
-      movies: db.table_to_json(moviesRows, { film_id:'number', title:'string', release_year:'number', rating:'string', description:'string', actors:'string' }),
-      categories: db.table_to_json(categoriesRows, { category_id:'number', name:'string' }),
+      movies: db.table_to_json(moviesRows, { film_id: 'number', title: 'string', release_year: 'number', rating: 'string', description: 'string', actors: 'string' }),
+      categories: db.table_to_json(categoriesRows, { category_id: 'number', name: 'string' }),
       common: commonData
     });
   } catch (err) {
@@ -122,7 +103,7 @@ app.get('/movies', async (req, res) => {
     `);
 
     res.render('movies', {
-      movies: db.table_to_json(moviesRows, { film_id:'number', title:'string', release_year:'number', rating:'string', description:'string', actors:'string' }),
+      movies: db.table_to_json(moviesRows, { film_id: 'number', title: 'string', release_year: 'number', rating: 'string', description: 'string', actors: 'string' }),
       common: commonData
     });
   } catch (err) {
@@ -150,7 +131,7 @@ app.get('/customers', async (req, res) => {
     `);
 
     res.render('customers', {
-      customers: db.table_to_json(customersRows, { customer_id:'number', first_name:'string', last_name:'string', email:'string', rentals:'string' }),
+      customers: db.table_to_json(customersRows, { customer_id: 'number', first_name: 'string', last_name: 'string', email: 'string', rentals: 'string' }),
       common: commonData
     });
   } catch (err) {
