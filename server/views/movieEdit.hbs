@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+</head>
+
+<body>
+
+{{> menu}}
+
+<div class="container">
+    <h1>Editar Película</h1>
+    
+    <form action="/editarPeli" method="POST" class="form-horizontal">
+        <input type="hidden" name="film_id" value="{{movie.film_id}}">
+        
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" value="{{movie.title}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description">{{movie.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="release_year">Año:</label>
+            <input type="number" id="release_year" name="release_year" value="{{movie.release_year}}">
+        </div>
+
+        <div class="form-group">
+            <label for="language_id">Idioma:</label>
+            <select id="language_id" name="language_id" required>
+                {{#each languages}}
+                <option value="{{language_id}}" {{#if (eq language_id ../movie.language_id)}}selected{{/if}}>
+                    {{name}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="rental_duration">Duración de alquiler (días):</label>
+            <input type="number" id="rental_duration" name="rental_duration" value="{{movie.rental_duration}}">
+        </div>
+
+        <div class="form-group">
+            <label for="rental_rate">Tarifa de alquiler:</label>
+            <input type="number" id="rental_rate" name="rental_rate" step="0.01" value="{{movie.rental_rate}}">
+        </div>
+
+        <div class="form-group">
+            <label for="length">Duración (minutos):</label>
+            <input type="number" id="length" name="length" value="{{movie.length}}">
+        </div>
+
+        <div class="form-group">
+            <label for="replacement_cost">Coste de reemplazo:</label>
+            <input type="number" id="replacement_cost" name="replacement_cost" step="0.01" value="{{movie.replacement_cost}}">
+        </div>
+
+        <div class="form-group">
+            <label for="rating">Calificación:</label>
+            <select id="rating" name="rating">
+                <option value="G" {{#if (eq movie.rating 'G')}}selected{{/if}}>G</option>
+                <option value="PG" {{#if (eq movie.rating 'PG')}}selected{{/if}}>PG</option>
+                <option value="PG-13" {{#if (eq movie.rating 'PG-13')}}selected{{/if}}>PG-13</option>
+                <option value="R" {{#if (eq movie.rating 'R')}}selected{{/if}}>R</option>
+                <option value="NC-17" {{#if (eq movie.rating 'NC-17')}}selected{{/if}}>NC-17</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/movie/{{movie.film_id}}" class="btn">Cancelar</a>
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="delete-section">
+        <h3>Eliminar Película</h3>
+        <p>Esta acción no se puede deshacer.</p>
+        <form action="/esborrarPeli" method="POST">
+            <input type="hidden" name="film_id" value="{{movie.film_id}}">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta película?')">Eliminar Definitivamente</button>
+        </form>
+    </div>
+</div>
+
+{{> footer}}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form.form-horizontal');
+    if (!form) return;
+    
+    // Desactivar validación nativa para mostrar nuestro diseño personalizado de error
+    form.setAttribute('novalidate', 'true');
+    
+    form.addEventListener('submit', (event) => {
+        let isValid = true;
+        
+        // Limpiar errores previos
+        document.querySelectorAll('.form-group').forEach(group => {
+            group.classList.remove('invalid');
+            const errorMsg = group.querySelector('.error-message');
+            if (errorMsg) errorMsg.remove();
+        });
+        
+        // Lista de campos requeridos y su nombre descriptivo para el mensaje de error
+        const fields = [
+            { id: 'title', name: 'Título' },
+            { id: 'language_id', name: 'Idioma' },
+            { id: 'rental_duration', name: 'Duración de alquiler' },
+            { id: 'rental_rate', name: 'Tarifa de alquiler' },
+            { id: 'length', name: 'Duración' },
+            { id: 'replacement_cost', name: 'Coste de reemplazo' }
+        ];
+        
+        let firstInvalidField = null;
+        
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            if (!input) return;
+            
+            const value = input.value.trim();
+            const group = input.closest('.form-group');
+            
+            if (value === '') {
+                isValid = false;
+                group.classList.add('invalid');
+                
+                // Crear y mostrar el mensaje de error en rojo
+                const errorSpan = document.createElement('span');
+                errorSpan.className = 'error-message';
+                errorSpan.innerText = `¡El campo "${field.name}" no puede estar vacío!`;
+                group.appendChild(errorSpan);
+                
+                if (!firstInvalidField) {
+                    firstInvalidField = input;
+                }
+                
+                // Quitar el color rojo y el mensaje en cuanto el usuario empiece a escribir o cambiar la selección
+                const clearError = () => {
+                    if (input.value.trim() !== '') {
+                        group.classList.remove('invalid');
+                        const msg = group.querySelector('.error-message');
+                        if (msg) msg.remove();
+                        input.removeEventListener('input', clearError);
+                        input.removeEventListener('change', clearError);
+                    }
+                };
+                input.addEventListener('input', clearError);
+                input.addEventListener('change', clearError);
+            }
+        });
+        
+        if (!isValid) {
+            event.preventDefault(); // Prevenir el envío si hay campos vacíos
+            if (firstInvalidField) {
+                firstInvalidField.focus();
+                firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>

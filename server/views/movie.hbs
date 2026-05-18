@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {{> header}}
+</head>
+
+<body>
+
+{{> menu}}
+
+<div class="container">
+    <h1>Detalles de la Película</h1>
+    <div class="movie-details">
+        {{#with movie}}
+        <h2>{{title}}</h2>
+        <p><b>Descripción:</b> {{description}}</p>
+        <p><b>Año de lanzamiento:</b> {{release_year}}</p>
+        <p><b>Calificación:</b> {{rating}}</p>
+        <p><b>Duración:</b> {{length}} min</p>
+        <p><b>Idioma:</b> {{language_name}}</p>
+        <p><b>Características especiales:</b> {{special_features}}</p>
+        <p><b>Coste de reemplazo:</b> ${{replacement_cost}}</p>
+        <p><b>Tarifa de alquiler:</b> ${{rental_rate}}</p>
+        
+        <div class="actions">
+            <a href="/movieEdit/{{film_id}}" class="btn btn-edit">Editar / Eliminar</a>
+            <a href="/movies" class="btn">Volver a la lista</a>
+        </div>
+        {{/with}}
+    </div>
+</div>
+
+{{> footer}}
+
+</body>
+</html>

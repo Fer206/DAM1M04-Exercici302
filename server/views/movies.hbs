@@ -12,10 +12,16 @@
 
 <div class="grid">
     {{#each movies}}
-    <div class="card">
-        <h3>{{title}}</h3>
-        <p>Año: {{release_year}}</p>
-        <p><b>Actors:</b> {{actors}}</p>
+    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+            <h3>{{title}}</h3>
+            <p>Año: {{release_year}}</p>
+            <p><b>Actors:</b> {{actors}}</p>
+        </div>
+        <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <a href="/movie/{{film_id}}" class="btn btn-primary" style="flex: 1; text-align: center;">Detalles</a>
+            <a href="/movieEdit/{{film_id}}" class="btn btn-edit" style="flex: 1; text-align: center;">Editar</a>
+        </div>
     </div>
     {{/each}}
 </div>

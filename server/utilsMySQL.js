@@ -29,14 +29,22 @@ class MySQL {
     }
 
     // Fer una consulta a la base de dades
-    callbackQuery(queryStr, callback) {
-        this.pool.query(queryStr, (err, rst) => callback(err, rst));
+    callbackQuery(queryStr, params, callback) {
+        if (typeof params === 'function') {
+            callback = params;
+            params = [];
+        }
+        if (Array.isArray(params) && params.length > 0) {
+            this.pool.query(queryStr, params, (err, rst) => callback(err, rst));
+        } else {
+            this.pool.query(queryStr, (err, rst) => callback(err, rst));
+        }
     }
 
     // Fer una consulta a la base de dades amb 'promises'
-    query(queryStr) {
+    query(queryStr, params = []) {
         return new Promise((resolve, reject) => {
-            return this.callbackQuery(queryStr, (err, rst) => { 
+            return this.callbackQuery(queryStr, params, (err, rst) => { 
                 if (err) return reject(err); 
                 else return resolve(rst); 
             });
