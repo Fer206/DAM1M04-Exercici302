@@ -1,48 +1,35 @@
 /* Premium Blue Theme - Sakila Movie Manager */
 :root {
-    /* Color Palette */
-    --bg-app: #e9eff6;
-    /* Beautiful soft blue-gray background for the web */
-    --bg-card: #f8fafc;
-    /* Elegant ice-blue background for the cards */
-    --bg-header: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+    /* Paleta de Colores en Español */
+    --color-fondo-web: #e9eff6;
+    --color-fondo-tarjeta: #f8fafc;
+    --color-menu: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
 
-    --primary: #2563eb;
-    /* Royal blue for primary actions */
-    --primary-hover: #1d4ed8;
-    --primary-light: #eff6ff;
+    --color-azul-principal: #2563eb;
+    --color-azul-hover: #1d4ed8;
+    --color-azul-linea: #0169f1;
 
-    --success: #10b981;
-    --success-hover: #059669;
+    --color-morado-editar: #4f46e5;
+    --color-morado-hover: #4338ca;
 
-    --warning: #4f46e5;
-    /* Elegant Indigo for edit actions - fits perfectly with the blue page! */
-    --warning-hover: #4338ca;
+    --color-rojo-eliminar: #ef4444;
+    --color-rojo-hover: #dc2626;
+    --color-rojo-error: #f2f7fe;
 
-    --danger: #ef4444;
-    --danger-hover: #dc2626;
-    --danger-light: #fef2f2;
+    --color-texto-negro: #0f172a;
+    --color-texto-gris: #475569;
+    --color-texto-apagado: #64748b;
 
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #64748b;
+    --color-borde: #0b84bc;
+    --color-borde-foco: #3b82f6;
 
-    --border-light: #e2e8f0;
-    --border-focus: #3b82f6;
+    /* Sombras y Redondeado */
+    --sombra-suave: 0 4px 10px rgba(15, 23, 42, 0.06);
+    --sombra-neon: 0 12px 30px rgba(0, 240, 255, 0.35);
+    --redondeado: 8px;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-    --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-    --shadow-card-hover: 0 20px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(37, 99, 235, 0.05);
-
-    /* Border Radius */
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-
-    /* Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Animaciones */
+    --animacion-suave: all 0.3s ease;
 }
 
 /* Global Styles */
@@ -50,8 +37,8 @@ body {
     font-family: 'Roboto', 'Arial', sans-serif;
     margin: 0;
     padding: 0 20px 20px 20px;
-    background-color: var(--bg-app);
-    color: var(--text-primary);
+    background-color: var(--color-fondo-web);
+    color: var(--color-texto-negro);
     line-height: 1.6;
 }
 
@@ -59,7 +46,7 @@ body {
 h1 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--color-texto-negro);
     margin: 30px 0 20px;
     text-align: center;
     letter-spacing: -0.5px;
@@ -75,13 +62,13 @@ h1::after {
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: var(--primary);
+    background: var(--color-azul-principal);
     border-radius: 2px;
 }
 
 h2,
 h3 {
-    color: var(--text-primary);
+    color: var(--color-texto-negro);
     margin-top: 0;
     font-weight: 700;
 }
@@ -92,8 +79,8 @@ h3 {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: var(--bg-header);
-    box-shadow: var(--shadow-lg);
+    background: var(--color-menu);
+    box-shadow: var(--sombra-suave);
     margin: 0 -20px 30px -20px;
     border-radius: 0 0 20px 20px;
     position: sticky;
@@ -104,9 +91,7 @@ h3 {
 .logo img {
     height: 45px;
     display: block;
-    filter: brightness(0) invert(1);
-    /* Makes the logo white for contrast */
-    transition: var(--transition-smooth);
+    transition: var(--animacion-suave);
 }
 
 .logo img:hover {
@@ -127,8 +112,8 @@ nav a {
     color: rgba(255, 255, 255, 0.85);
     font-size: 16px;
     padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    transition: var(--transition-smooth);
+    border-radius: var(--redondeado);
+    transition: var(--animacion-suave);
 }
 
 nav a:hover {
@@ -141,10 +126,10 @@ nav a:hover {
     max-width: 900px;
     margin: 0 auto 40px;
     padding: 30px;
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border-light);
+    background: var(--color-fondo-tarjeta);
+    border-radius: var(--redondeado);
+    box-shadow: var(--sombra-suave);
+    border: 1px solid var(--color-borde);
 }
 
 /* Grid Layout */
@@ -158,12 +143,12 @@ nav a:hover {
 
 /* Card design */
 .card {
-    background: var(--bg-card);
+    background: var(--color-fondo-tarjeta);
     padding: 24px;
-    border-radius: var(--radius-md);
+    border-radius: var(--redondeado);
     border: 1.5px solid #38bdf8;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
-    transition: var(--transition-smooth);
+    box-shadow: var(--sombra-suave);
+    transition: var(--animacion-suave);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -173,18 +158,18 @@ nav a:hover {
 .card:hover {
     transform: translateY(-6px);
     border-color: #00f0ff;
-    box-shadow: 0 12px 30px rgba(0, 240, 255, 0.35);
+    box-shadow: var(--sombra-neon);
 }
 
 .card h2,
 .card h3 {
     font-size: 1.3rem;
-    color: var(--primary);
+    color: var(--color-azul-principal);
     margin-bottom: 12px;
 }
 
 .card p {
-    color: var(--text-secondary);
+    color: var(--color-texto-gris);
     font-size: 14px;
     margin: 8px 0;
 }
@@ -192,7 +177,7 @@ nav a:hover {
 .card ul {
     padding-left: 20px;
     margin: 8px 0;
-    color: var(--text-secondary);
+    color: var(--color-texto-gris);
     font-size: 13px;
 }
 
@@ -204,80 +189,80 @@ nav a:hover {
 .btn {
     display: inline-block;
     padding: 10px 22px;
-    background-color: var(--btn-secondary-bg);
-    color: var(--text-secondary);
+    background-color: #ffffff;
+    color: var(--color-texto-gris);
     text-decoration: none;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-light);
+    border-radius: var(--redondeado);
+    border: 1px solid var(--color-borde);
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
     text-align: center;
-    transition: var(--transition-smooth);
+    transition: var(--animacion-suave);
 }
 
 .btn:hover {
-    background-color: var(--btn-secondary-hover);
-    color: var(--text-primary);
+    background-color: #f1f5f9;
+    color: var(--color-texto-negro);
     transform: translateY(-1px);
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: var(--color-azul-principal);
     color: white;
     border: none;
     box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
+    background: var(--color-azul-hover);
     color: white;
     box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
 }
 
 .btn-edit {
-    background-color: var(--warning);
+    background-color: var(--color-morado-editar);
     color: white;
     border: none;
-    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
 }
 
 .btn-edit:hover {
-    background-color: var(--warning-hover);
+    background-color: var(--color-morado-hover);
     color: white;
-    box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
 }
 
 .btn-danger {
-    background-color: var(--danger);
+    background-color: var(--color-rojo-eliminar);
     color: white;
     border: none;
     box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
 }
 
 .btn-danger:hover {
-    background-color: var(--danger-hover);
+    background-color: var(--color-rojo-hover);
     color: white;
     box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
 }
 
 /* Movie details inside container */
 .movie-details h2 {
-    color: var(--primary);
+    color: var(--color-azul-principal);
     font-size: 2rem;
     margin-bottom: 20px;
-    border-bottom: 2px solid var(--primary-light);
+    border-bottom: 2px solid var(--color-azul-linea);
     padding-bottom: 10px;
 }
 
 .movie-details p {
     font-size: 16px;
     margin: 12px 0;
-    color: var(--text-secondary);
+    color: var(--color-texto-gris);
 }
 
 .movie-details p b {
-    color: var(--text-primary);
+    color: var(--color-texto-negro);
 }
 
 .movie-details .actions {
@@ -302,26 +287,26 @@ nav a:hover {
 .form-group label {
     font-weight: 600;
     font-size: 15px;
-    color: var(--text-secondary);
+    color: var(--color-texto-gris);
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     padding: 12px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--redondeado);
     font-size: 15px;
-    color: var(--text-primary);
+    color: var(--color-texto-negro);
     background-color: #ffffff;
-    transition: var(--transition-smooth);
+    transition: var(--animacion-suave);
     outline: none;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-    border-color: var(--border-focus);
+    border-color: var(--color-borde-foco);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
@@ -334,8 +319,8 @@ nav a:hover {
 .form-group.invalid input,
 .form-group.invalid textarea,
 .form-group.invalid select {
-    border-color: var(--danger);
-    background-color: var(--danger-light);
+    border-color: var(--color-rojo-eliminar);
+    background-color: var(--color-rojo-error);
 }
 
 .form-group.invalid input:focus,
@@ -345,7 +330,7 @@ nav a:hover {
 }
 
 .error-message {
-    color: var(--danger);
+    color: var(--color-rojo-eliminar);
     font-size: 13px;
     font-weight: 600;
     margin-top: 4px;
@@ -370,12 +355,12 @@ nav a:hover {
     margin-top: 40px;
     padding: 24px;
     border: 1px solid #fee2e2;
-    background-color: var(--danger-light);
-    border-radius: var(--radius-md);
+    background-color: var(--color-rojo-error);
+    border-radius: var(--redondeado);
 }
 
 .delete-section h3 {
-    color: var(--danger);
+    color: var(--color-rojo-eliminar);
     margin-bottom: 8px;
     font-size: 1.2rem;
 }
@@ -391,9 +376,9 @@ footer {
     text-align: center;
     margin-top: 60px;
     padding: 30px 0;
-    color: var(--text-muted);
+    color: var(--color-texto-apagado);
     font-size: 14px;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid var(--color-borde);
 }
 
 /* Welcome Page Specifics */
@@ -402,9 +387,9 @@ body>img[alt="Logo"] {
     max-width: 250px;
     height: auto;
     margin: 20px auto 40px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    transition: var(--transition-smooth);
+    border-radius: var(--redondeado);
+    box-shadow: var(--sombra-suave);
+    transition: var(--animacion-suave);
 }
 
 body>img[alt="Logo"]:hover {
@@ -414,6 +399,6 @@ body>img[alt="Logo"]:hover {
 hr {
     border: 0;
     height: 1px;
-    background: var(--border-light);
+    background: var(--color-borde);
     margin: 40px 0;
 }
