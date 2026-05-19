@@ -173,16 +173,20 @@ app.get('/movieAdd', async (req, res) => {
 app.get('/movie/:id', async (req, res) => {
   try {
     const movieRows = await db.query(`
-      SELECT f.*, l.name AS language_name
+      SELECT f.*, l.name AS language_name,
+             GROUP_CONCAT(CONCAT(a.first_name,' ',a.last_name) SEPARATOR ', ') AS actors
       FROM film f
       JOIN language l ON f.language_id = l.language_id
+      LEFT JOIN film_actor fa ON f.film_id = fa.film_id
+      LEFT JOIN actor a ON fa.actor_id = a.actor_id
       WHERE f.film_id = ?
+      GROUP BY f.film_id
     `, [req.params.id]);
 
     if (movieRows.length === 0) return res.status(404).send('Pel·lícula no trobada');
 
     res.render('movie', {
-      movie: db.table_to_json(movieRows, { film_id: 'number', release_year: 'number', length: 'number', replacement_cost: 'number', rental_rate: 'number' })[0],
+      movie: db.table_to_json(movieRows, { film_id: 'number', release_year: 'number', length: 'number', replacement_cost: 'number', rental_rate: 'number', actors: 'string' })[0],
       common: commonData
     });
   } catch (err) {
@@ -199,9 +203,26 @@ app.get('/movieEdit/:id', async (req, res) => {
 
     if (movieRows.length === 0) return res.status(404).send('Pel·lícula no trobada');
 
+    const movie = db.table_to_json(movieRows, { film_id: 'number', language_id: 'number', release_year: 'number', length: 'number', replacement_cost: 'number', rental_rate: 'number', rental_duration: 'number', rating: 'string' })[0];
+
+    // Marcar l'idioma seleccionat des del servidor per no dependre de helper eq en hbs
+    languages.forEach(lang => {
+      lang.selected = (lang.language_id === movie.language_id);
+    });
+
+    // Mapejar les qualificacions (ratings) per seleccionar-les fàcilment al template
+    const ratings = [
+      { value: 'G', selected: movie.rating === 'G' },
+      { value: 'PG', selected: movie.rating === 'PG' },
+      { value: 'PG-13', selected: movie.rating === 'PG-13' },
+      { value: 'R', selected: movie.rating === 'R' },
+      { value: 'NC-17', selected: movie.rating === 'NC-17' }
+    ];
+
     res.render('movieEdit', {
-      movie: db.table_to_json(movieRows, { film_id: 'number', language_id: 'number', release_year: 'number', length: 'number', replacement_cost: 'number', rental_rate: 'number', rental_duration: 'number' })[0],
+      movie,
       languages,
+      ratings,
       common: commonData
     });
   } catch (err) {
@@ -214,10 +235,24 @@ app.get('/movieEdit/:id', async (req, res) => {
 app.post('/afegirPeli', async (req, res) => {
   try {
     const { title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating } = req.body;
+    
+    // Funció per convertir strings buides a null per evitar errors a MySQL
+    const clean = (val) => (val === undefined || val === null || String(val).trim() === '') ? null : String(val).trim();
+
     await db.query(`
       INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating]);
+    `, [
+      clean(title),
+      clean(description),
+      clean(release_year),
+      clean(language_id),
+      clean(rental_duration),
+      clean(rental_rate),
+      clean(length),
+      clean(replacement_cost),
+      clean(rating)
+    ]);
 
     res.redirect('/movies');
   } catch (err) {
@@ -230,11 +265,25 @@ app.post('/afegirPeli', async (req, res) => {
 app.post('/editarPeli', async (req, res) => {
   try {
     const { film_id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating } = req.body;
+    
+    const clean = (val) => (val === undefined || val === null || String(val).trim() === '') ? null : String(val).trim();
+
     await db.query(`
       UPDATE film 
       SET title=?, description=?, release_year=?, language_id=?, rental_duration=?, rental_rate=?, length=?, replacement_cost=?, rating=?
       WHERE film_id=?
-    `, [title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, film_id]);
+    `, [
+      clean(title),
+      clean(description),
+      clean(release_year),
+      clean(language_id),
+      clean(rental_duration),
+      clean(rental_rate),
+      clean(length),
+      clean(replacement_cost),
+      clean(rating),
+      film_id
+    ]);
 
     res.redirect('/movie/' + film_id);
   } catch (err) {

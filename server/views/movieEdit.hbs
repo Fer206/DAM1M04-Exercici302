@@ -33,7 +33,7 @@
             <label for="language_id">Idioma:</label>
             <select id="language_id" name="language_id" required>
                 {{#each languages}}
-                <option value="{{language_id}}" {{#if (eq language_id ../movie.language_id)}}selected{{/if}}>
+                <option value="{{language_id}}" {{#if selected}}selected{{/if}}>
                     {{name}}
                 </option>
                 {{/each}}
@@ -63,11 +63,9 @@
         <div class="form-group">
             <label for="rating">Calificación:</label>
             <select id="rating" name="rating">
-                <option value="G" {{#if (eq movie.rating 'G')}}selected{{/if}}>G</option>
-                <option value="PG" {{#if (eq movie.rating 'PG')}}selected{{/if}}>PG</option>
-                <option value="PG-13" {{#if (eq movie.rating 'PG-13')}}selected{{/if}}>PG-13</option>
-                <option value="R" {{#if (eq movie.rating 'R')}}selected{{/if}}>R</option>
-                <option value="NC-17" {{#if (eq movie.rating 'NC-17')}}selected{{/if}}>NC-17</option>
+                {{#each ratings}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>
+                {{/each}}
             </select>
         </div>
 

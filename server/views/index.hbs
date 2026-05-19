@@ -2,22 +2,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     {{> header}}
-    
 </head>
 <body>
     {{> menu}}
+    
     <h1>Welcome to {{common.siteName}}</h1>
-    <img src="/imatges/logo-no-text.png" alt="Logo">
-    <h1>Peliculas destacadas</h1>
+    
+    <div style="text-align: center; margin-bottom: 40px;">
+        <img src="/imatges/logo.png" alt="Logo" style="max-width: 250px; border-radius: var(--redondeado); box-shadow: var(--sombra-suave);">
+    </div>
+
+    <h1>Películas Destacadas</h1>
 
     <div class="grid">
         {{#each movies}}
-        <div class="card">
-            <h2>{{this.title}}</h2>
-            <p>{{this.description}}</p>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+                <h3>{{title}}</h3>
+                <p><b>Año:</b> {{release_year}}</p>
+                <p><b>Calificación:</b> {{rating}}</p>
+                <p>{{description}}</p>
+                <p style="margin-top: 12px; font-size: 13px;"><b>Reparto:</b> {{actors}}</p>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <a href="/movie/{{film_id}}" class="btn btn-primary" style="display: block; text-align: center;">Detalles</a>
+            </div>
         </div>
         {{/each}}
     </div>
+
+    <hr>
+
+    <h1>Categorías Destacadas</h1>
+    
+    <div class="categories-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px 0 50px 0;">
+        {{#each categories}}
+        <span class="category-badge" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 12px 24px; border-radius: 50px; font-weight: bold; font-size: 14px; box-shadow: var(--sombra-suave); text-transform: uppercase; letter-spacing: 0.5px; transition: var(--animacion-suave); border: 1.5px solid #38bdf8;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='var(--sombra-neon)';" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--sombra-suave)';">
+            {{name}}
+        </span>
+        {{/each}}
+    </div>
+
     {{> footer}}
 </body>
 </html>
